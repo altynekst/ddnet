@@ -18,6 +18,7 @@
 #include "components/freezebars.h"
 #include "components/ghost.h"
 #include "components/hud.h"
+#include "components/aura.h"
 #include "components/infomessages.h"
 #include "components/items.h"
 #include "components/mapimages.h"
