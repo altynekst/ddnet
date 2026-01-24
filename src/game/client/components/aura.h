@@ -1,9 +1,9 @@
-#ifndef GAME_CLIENT_COMPONENTS_HAX_H
-#define GAME_CLIENT_COMPONENTS_HAX_H
+#ifndef GAME_CLIENT_COMPONENTS_AURA_H
+#define GAME_CLIENT_COMPONENTS_AURA_H
 
 #include <game/client/component.h>
 
-class CHax : public CComponent
+class CAura : public CComponent
 {
 private:
     // Переменная для отслеживания времени (для радужного эффекта)
@@ -12,14 +12,14 @@ private:
     bool m_RainbowEnabled; 
 
 public:
-    CHax();
+    CAura();
 
     // Переопределение методов
     virtual void OnInit();
-    virtual void OnRender(); // Теперь он нам нужен для изменения цвета
+    virtual void OnRender(); // Для изменения цвета/эффектов
     virtual void OnConsoleInit(); // Для регистрации команды в консоли
 
-    // Кастомная функция для включения/отключения радуги
+    // Функция для включения/отключения радуги
     void ToggleRainbow(bool Enable);
 };
 

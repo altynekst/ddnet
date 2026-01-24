@@ -1,70 +1,53 @@
-#include "hax.h"
-#include <engine/console.h>
-#include <engine/shared/config.h> // Для доступа к настройкам
-#include <base/color.h> // Для работы с цветами
+#include "aura.h"
+#include <game/client/gameclient.h>
+#include <engine/client/console.h>
 
-// Функция-обработчик для команды консоли
-static void ConToggleRainbow(IConsole::IResult *pResult, void *pUserData)
-{
-    CHax *pHax = (CHax *)pUserData;
-    pHax->ToggleRainbow(pResult->GetInteger(0) != 0);
-}
-
-CHax::CHax()
+CAura::CAura()
 {
     m_RainbowTime = 0.0f;
     m_RainbowEnabled = false;
 }
 
-void CHax::OnInit()
+void CAura::OnInit()
 {
-    // Инициализация
+    // Инициализация компонента
 }
 
-void CHax::OnConsoleInit()
+void CAura::OnConsoleInit()
 {
     // Регистрируем команду в консоли
-    Console()->Register("cl_rainbow", "i", CFGFLAG_CLIENT, ConToggleRainbow, this, 
-        "Toggle rainbow skin effect (0=off, 1=on)");
+    Console()->Register("aura_rainbow", "i[enable]", CFGFLAG_CLIENT, 
+        [](IConsole::IResult *pResult, void *pUserData) {
+            CAura *pAura = (CAura *)pUserData;
+            pAura->ToggleRainbow(pResult->GetInteger(0) != 0);
+        }, this, "Toggle rainbow aura effect");
+    
+    Console()->Print(IConsole::OUTPUT_LEVEL_STANDARD, "aura", 
+        "Rainbow command registered. Use 'aura_rainbow 1' to enable.");
 }
 
-void CHax::ToggleRainbow(bool Enable)
+void CAura::ToggleRainbow(bool Enable)
 {
     m_RainbowEnabled = Enable;
-    
-    if (!Enable)
-    {
-        // Если выключаем, сбрасываем цвета на те, что были в настройках
-        str_copy(g_Config.m_ClColorBody, g_Config.m_ClDefaultColorBody, sizeof(g_Config.m_ClColorBody));
-        str_copy(g_Config.m_ClColorFeet, g_Config.m_ClDefaultColorFeet, sizeof(g_Config.m_ClColorFeet));
-    }
-    
-    m_pClient->Console()->Print(IConsole::OUTPUT_CLIENT, "Hax", 
-        Enable ? "Rainbow skin ENABLED." : "Rainbow skin DISABLED.");
+    Console()->Print(IConsole::OUTPUT_LEVEL_STANDARD, "aura", 
+        Enable ? "Rainbow aura effect enabled!" : "Rainbow aura effect disabled!");
 }
 
-void CHax::OnRender()
+void CAura::OnRender()
 {
-    if (!m_RainbowEnabled)
+    if(!m_RainbowEnabled)
         return;
-
-    // 1. Обновляем время
-    m_RainbowTime += Client()->RenderFrameTime() * 0.5f; // Скорость смены цвета (0.5f - средняя)
-    if (m_RainbowTime > 1.0f)
-        m_RainbowTime -= 1.0f;
-
-    // 2. Вычисляем новый цвет (используем HSL для плавного перехода)
-    // HSLtoRGB - это функция из base/color.h
-    vec3 RgbColor = HSLtoRGB(vec3(m_RainbowTime, 1.0f, 0.5f)); 
-
-    // 3. Преобразуем RGB в формат, который использует DDNet (целое число)
-    int NewColor = (int)(RgbColor.r * 255.0f) | 
-                   (int)(RgbColor.g * 255.0f) << 8 | 
-                   (int)(RgbColor.b * 255.0f) << 16;
-
-    // 4. Применяем цвет к настройкам скина// Мы меняем настройки, которые отправляются на сервер
-    g_Config.m_ClColorBody = NewColor;
-    g_Config.m_ClColorFeet = NewColor;
-
-    // 5. Убеждаемся, что используются кастомные цвета
-    g_Config.m_ClUseCustomColor = 1;}
+    
+    // Обновляем время для анимации
+    m_RainbowTime += Client()->RenderFrameTime();
+    
+    // Создаем радужный эффект (изменение оттенка со временем)
+    float Hue = fmod(m_RainbowTime * 0.5f, 1.0f); // Полный цикл за 2 секунды
+    
+    // Здесь можно добавить код применения эффекта к игроку
+    // Например, изменение цвета тей или добавление частиц вокруг него
+    // Пример: m_pClient->m_pGameClient->GetPlayerColor() = HSLA(Hue, 1.0f, 0.5f);
+    
+    // Для теста можно выводить в лог
+    // dbg_msg("aura", "Rainbow hue: %.2f", Hue);
+}
