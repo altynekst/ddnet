@@ -5270,3 +5270,8 @@ void CGameClient::StoreSave(const char *pTeamMembers, const char *pGeneratedCode
 	CsvWrite(File, std::size(SAVES_HEADER), apColumns);
 	io_close(File);
 }
+ 
+CGameClient::CGameClient() :
+    m_MobileMenu()
+{
+}

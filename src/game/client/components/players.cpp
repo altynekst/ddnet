@@ -2,6 +2,7 @@
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
 
 #include "players.h"
+#include "game/client/auraclient.h"
 
 #include <base/color.h>
 #include <base/math.h>
@@ -515,6 +516,16 @@ void CPlayers::RenderPlayer(
 	Player = *pPlayerChar;
 
 	CTeeRenderInfo RenderInfo = *pRenderInfo;
+	// AuraClient: Красная подсветка при хуке
+if(CAuraClient::m_HookHitGlow)
+{
+    CGameClient::CPlayerInfo *pLocal = GameClient()->m_Snap.m_pLocalInfo;
+    if(pLocal && pLocal->m_HookedPlayer == ClientId)
+    {
+        RenderInfo.m_ColorBody = vec4(1.0f, 0.3f, 0.3f, RenderInfo.m_ColorBody.a);
+        RenderInfo.m_ColorFeet = vec4(1.0f, 0.3f, 0.3f, RenderInfo.m_ColorFeet.a);
+    }
+}
 
 	bool Local = GameClient()->m_Snap.m_LocalClientId == ClientId;
 	bool OtherTeam = GameClient()->IsOtherTeam(ClientId);

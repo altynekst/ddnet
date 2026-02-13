@@ -2349,6 +2349,8 @@ if(CLIENT)
     video.cpp
     video.h
     warning.cpp
+    auraclient.cpp
+auraclient.h
   )
   set_src(GAME_CLIENT GLOB_RECURSE src/game/client
     animstate.cpp

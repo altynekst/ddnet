@@ -4,6 +4,7 @@
 #define GAME_CLIENT_GAMECLIENT_H
 
 #include "render.h"
+#include "mobile_menu.h"
 
 #include <base/color.h>
 #include <base/vmath.h>
@@ -138,6 +139,7 @@ enum class EClientIdFormat
 class CGameClient : public IGameClient
 {
 public:
+      CGameClient();
 	// all components
 	CInfoMessages m_InfoMessages;
 	CCamera m_Camera;
@@ -189,6 +191,8 @@ public:
 	CLocalServer m_LocalServer;
 
 private:
+    CMobileMenu m_MobileMenu;
+
 	std::vector<class CComponent *> m_vpAll;
 	std::vector<class CComponent *> m_vpInput;
 	CNetObjHandler m_NetObjHandler;

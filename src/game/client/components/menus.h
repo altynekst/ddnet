@@ -556,6 +556,7 @@ protected:
 	void RenderSettingsGraphics(CUIRect MainView);
 	void RenderSettingsSound(CUIRect MainView);
 	void RenderSettings(CUIRect MainView);
+	void RenderAuraClientSettings(CUIRect MainView);
 	void RenderSettingsCustom(CUIRect MainView);
 
 	// found in menus_settings_controls.cpp
@@ -645,6 +646,7 @@ public:
 		PAGE_SETTINGS,
 		PAGE_NETWORK,
 		PAGE_GHOST,
+		PAGE_AURACLIENT,
 
 		PAGE_LENGTH,
 	};

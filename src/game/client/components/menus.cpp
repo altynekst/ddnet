@@ -2,6 +2,7 @@
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
 
 #include "menus.h"
+#include "game/client/auraclient.h"
 
 #include <base/color.h>
 #include <base/log.h>
@@ -738,6 +739,29 @@ void CMenus::RenderMenubar(CUIRect Box, IClient::EClientState ClientState)
 	}
 }
 
+void CMenus::RenderStartMenu(CUIRect MainView)
+{
+    // ... существующий код
+    
+    // Добавьте кнопку Mobile Client
+    static CButtonContainer s_MobileButton;
+    CGameClient *pGameClient = (CGameClient *)Kernel()->RequestInterface<IGameClient>();
+    bool MobileActive = pGameClient && pGameClient->m_MobileMenu.IsActive();
+    
+    ColorRGBA MobileColor = MobileActive ? 
+        ColorRGBA(0.0f, 0.6f, 1.0f, 0.9f) : 
+        ColorRGBA(0.2f, 0.2f, 0.4f, 0.7f);
+    
+    CUIRect Button;
+    MainView.VSplitRight(120.0f, &MainView, &Button);
+    if(DoButton_Menu(&s_MobileButton, "📱 Mobile Client", MobileActive, &Button, 
+        0, nullptr, IGraphics::CORNER_ALL, 5.0f, 0.0f, MobileColor))
+    {
+        if(pGameClient)
+            pGameClient->m_MobileMenu.Toggle();
+    }
+}
+
 void CMenus::RenderLoading(const char *pCaption, const char *pContent, int IncreaseCounter)
 {
 	// TODO: not supported right now due to separate render thread
@@ -1122,8 +1146,12 @@ void CMenus::Render()
 			{
 				RenderDemoBrowser(MainView);
 			}
-			else if(m_MenuPage == PAGE_SETTINGS)
-			{
+			else if(m_MenuPage == PAGE_AURACLIENT)
+{
+    RenderAuraClientSettings(MainView);
+}
+else if(m_MenuPage == PAGE_SETTINGS)
+
 				RenderSettings(MainView);
 			}
 			else
@@ -1353,33 +1381,33 @@ void CMenus::RenderPopupFullscreen(CUIRect Screen)
 		ButtonBar.VMargin(100.0f, &ButtonBar);
 
 		if(m_Popup == POPUP_MESSAGE)
+	{
+		static CButtonContainer s_ButtonConfirm;
+		if(DoButton_Menu(&s_ButtonConfirm, m_aPopupButtons[BUTTON_CONFIRM].m_aLabel, 0, &ButtonBar) || Ui()->ConsumeHotkey(CUi::HOTKEY_ESCAPE) || Ui()->ConsumeHotkey(CUi::HOTKEY_ENTER))
 		{
-			static CButtonContainer s_ButtonConfirm;
-			if(DoButton_Menu(&s_ButtonConfirm, m_aPopupButtons[BUTTON_CONFIRM].m_aLabel, 0, &ButtonBar) || Ui()->ConsumeHotkey(CUi::HOTKEY_ESCAPE) || Ui()->ConsumeHotkey(CUi::HOTKEY_ENTER))
-			{
-				m_Popup = m_aPopupButtons[BUTTON_CONFIRM].m_NextPopup;
-				(this->*m_aPopupButtons[BUTTON_CONFIRM].m_pfnCallback)();
-			}
+			m_Popup = m_aPopupButtons[BUTTON_CONFIRM].m_NextPopup;
+			(this->*m_aPopupButtons[BUTTON_CONFIRM].m_pfnCallback)();
 		}
-		else if(m_Popup == POPUP_CONFIRM)
+	}
+	else if(m_Popup == POPUP_CONFIRM)
+	{
+		CUIRect CancelButton, ConfirmButton;
+		ButtonBar.VSplitMid(&CancelButton, &ConfirmButton, 40.0f);
+
+		static CButtonContainer s_ButtonCancel;
+		if(DoButton_Menu(&s_ButtonCancel, m_aPopupButtons[BUTTON_CANCEL].m_aLabel, 0, &CancelButton) || Ui()->ConsumeHotkey(CUi::HOTKEY_ESCAPE))
 		{
-			CUIRect CancelButton, ConfirmButton;
-			ButtonBar.VSplitMid(&CancelButton, &ConfirmButton, 40.0f);
-
-			static CButtonContainer s_ButtonCancel;
-			if(DoButton_Menu(&s_ButtonCancel, m_aPopupButtons[BUTTON_CANCEL].m_aLabel, 0, &CancelButton) || Ui()->ConsumeHotkey(CUi::HOTKEY_ESCAPE))
-			{
-				m_Popup = m_aPopupButtons[BUTTON_CANCEL].m_NextPopup;
-				(this->*m_aPopupButtons[BUTTON_CANCEL].m_pfnCallback)();
-			}
-
-			static CButtonContainer s_ButtonConfirm;
-			if(DoButton_Menu(&s_ButtonConfirm, m_aPopupButtons[BUTTON_CONFIRM].m_aLabel, 0, &ConfirmButton) || Ui()->ConsumeHotkey(CUi::HOTKEY_ENTER))
-			{
-				m_Popup = m_aPopupButtons[BUTTON_CONFIRM].m_NextPopup;
-				(this->*m_aPopupButtons[BUTTON_CONFIRM].m_pfnCallback)();
-			}
+			m_Popup = m_aPopupButtons[BUTTON_CANCEL].m_NextPopup;
+			(this->*m_aPopupButtons[BUTTON_CANCEL].m_pfnCallback)();
 		}
+
+		static CButtonContainer s_ButtonConfirm;
+		if(DoButton_Menu(&s_ButtonConfirm, m_aPopupButtons[BUTTON_CONFIRM].m_aLabel, 0, &ConfirmButton) || Ui()->ConsumeHotkey(CUi::HOTKEY_ENTER))
+		{
+			m_Popup = m_aPopupButtons[BUTTON_CONFIRM].m_NextPopup;
+			(this->*m_aPopupButtons[BUTTON_CONFIRM].m_pfnCallback)();
+		}
+	}
 	}
 	else if(m_Popup == POPUP_QUIT || m_Popup == POPUP_RESTART)
 	{
