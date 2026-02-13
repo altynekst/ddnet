@@ -4,6 +4,7 @@
 #include "gameclient.h"
 
 #include "components/background.h"
+#include "components/aura.h"
 #include "components/binds.h"
 #include "components/broadcast.h"
 #include "components/camera.h"

@@ -3,8 +3,7 @@
 #ifndef GAME_CLIENT_GAMECLIENT_H
 #define GAME_CLIENT_GAMECLIENT_H
 
-#include "render.h"
-#include "mobile_menu.h"
+#include "components/aura.h"
 
 #include <base/color.h>
 #include <base/vmath.h>
@@ -179,9 +178,10 @@ public:
 	CMapLayers m_MapLayersBackground = CMapLayers{ERenderType::RENDERTYPE_BACKGROUND};
 	CMapLayers m_MapLayersForeground = CMapLayers{ERenderType::RENDERTYPE_FOREGROUND};
 	CBackground m_Background;
-	CMenuBackground m_MenuBackground;
-
+	CMenuBackground m_MenuBackground; 
+	
 	CMapSounds m_MapSounds;
+  Caura m_aura
 
 	CRaceDemo m_RaceDemo;
 	CGhost m_Ghost;
@@ -291,6 +291,7 @@ public:
 	class CRenderTools *RenderTools() { return &m_RenderTools; }
 	class CRenderMap *RenderMap() { return &m_RenderMap; }
 	class CLayers *Layers() { return &m_Layers; }
+	class Caura m_aura
 	CCollision *Collision() { return &m_Collision; }
 	const CCollision *Collision() const { return &m_Collision; }
 	const CRaceHelper *RaceHelper() const { return &m_RaceHelper; }
