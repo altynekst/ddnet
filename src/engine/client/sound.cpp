@@ -15,9 +15,7 @@
 #if defined(CONF_VIDEORECORDER)
 #include <engine/shared/video.h>
 #endif
-extern "C" {
-#include <opusfile.h>
-#include <wavpack.h>
+
 }
 
 #include <cmath>
