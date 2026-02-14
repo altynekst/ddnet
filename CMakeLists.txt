@@ -2608,7 +2608,7 @@ auraclient.h
   )
   set(CLIENT_SRC ${ENGINE_CLIENT} ${PLATFORM_CLIENT} ${GAME_CLIENT} ${GAME_EDITOR} ${GAME_MAP} ${GAME_GENERATED_CLIENT})
 
-  set(DEPS_CLIENT ${DEPS} ${GLEW_DEP} ${WAVPACK_DEP})
+  set(DEPS_CLIENT ${DEPS} ${GLEW_DEP} )
 
   # Libraries
   set(LIBS_CLIENT
@@ -2616,7 +2616,6 @@ auraclient.h
     ${GLEW_LIBRARIES}
     ${PNG_LIBRARIES}
     ${SDL2_LIBRARIES}
-    ${WAVPACK_LIBRARIES}
     ${FFMPEG_LIBRARIES}
 
     # Order of these three is important.
