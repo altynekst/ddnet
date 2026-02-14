@@ -44,3 +44,4 @@ mkdir cmdline-tools
 	mv cmdline-tools latest
 	yes 2> /dev/null | latest/bin/sdkmanager --licenses > /dev/null
 )
+

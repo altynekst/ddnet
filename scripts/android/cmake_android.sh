@@ -269,3 +269,4 @@ cp -R ../ddnet-libs/sdl/java/org src/main/java/
 # shellcheck source=scripts/android/files/build.sh
 source ./build.sh "$GAME_NAME" "$PACKAGE_NAME" "$BUILD_TYPE"
 cd ..
+
