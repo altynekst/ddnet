@@ -2349,8 +2349,6 @@ if(CLIENT)
     video.cpp
     video.h
     warning.cpp
-    auraclient.cpp
-
   )
   set_src(GAME_CLIENT GLOB_RECURSE src/game/client
     animstate.cpp
@@ -2500,6 +2498,8 @@ if(CLIENT)
     ui_rect.h
     ui_scrollregion.cpp
     ui_scrollregion.h
+    auraclient.cpp
+    auraclient.h
   )
   set_src(GAME_EDITOR GLOB_RECURSE src/game/editor
     auto_map.cpp
