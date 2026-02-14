@@ -1862,7 +1862,7 @@ set(EXPECTED_DATA
   wordlist.txt
 )
 
-set_glob(DATA GLOB_RECURSE "cfg;frag;json;map;otf;png;rules;ttc;ttf;txt;vert;wv" data ${EXPECTED_DATA})
+file(GLOB_RECURSE DATA "data/*")
 
 ########################################################################
 # COPY DATA AND SHARED LIBS
