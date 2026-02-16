@@ -21,6 +21,7 @@
 
 static constexpr int SAMPLE_INDEX_USED = -2;
 static constexpr int SAMPLE_INDEX_FULL = -1;
+static constexpr int NUM_VOICES = 256; // нужно добавить, если нет в хедере
 
 void CSound::Mix(short *pFinalOut, unsigned Frames)
 {
@@ -55,7 +56,7 @@ void CSound::Mix(short *pFinalOut, unsigned Frames)
 	// clamp and convert to short
 	for(unsigned i = 0; i < Frames * 2; i++)
 	{
-		int v = m_pMixBuffer[i] / (int) m_aVoices.size();
+		int v = m_pMixBuffer[i] / NUM_VOICES; // используем константу вместо .size()
 		if(v < -32768) v = -32768;
 		if(v > 32767) v = 32767;
 		pFinalOut[i] = v;
