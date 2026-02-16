@@ -3,7 +3,6 @@
 #ifndef GAME_CLIENT_GAMECLIENT_H
 #define GAME_CLIENT_GAMECLIENT_H
 
-#include "components/aura.h"
 
 #include <base/color.h>
 #include <base/vmath.h>
