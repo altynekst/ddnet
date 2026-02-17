@@ -43,7 +43,6 @@
 #include "race.h"
 #include "render.h"
 #include "game/client/auraclient.h"
-IEngineMap *CreateMap() { return new CEngineMap(); }
 
 #include <base/log.h>
 #include <base/math.h>
@@ -60,6 +59,26 @@ IEngineMap *CreateMap() { return new CEngineMap(); }
 #include <engine/friends.h>
 #include <engine/graphics.h>
 #include <engine/map.h>
+class CEngineMap : public IEngineMap
+{
+public:
+	bool Load(const char *pMapName, int StorageType) override { return false; }
+	void Unload() override {}
+	bool IsLoaded() const override { return false; }
+	IOHANDLE File() const override { return nullptr; }
+	SHA256_DIGEST Sha256() const override { return SHA256_DIGEST(); }
+	unsigned Crc() const override { return 0; }
+	int Size() const override { return 0; }
+	void *GetItem(int Index, int *pType, int *pID) override { return nullptr; }
+	void *GetData(int Index) override { return nullptr; }
+	const char *GetName() const override { return ""; }
+	void UnloadData(int Index) override {}
+	int NumData() const override { return 0; }
+	int NumItems() const override { return 0; }
+	void GetType(int Type, int *pStart, int *pNum) override {}
+};
+
+IEngineMap *CreateMap() { return new CEngineMap(); }
 #include <engine/serverbrowser.h>
 #include <engine/shared/config.h>
 #include <engine/shared/csv.h>
