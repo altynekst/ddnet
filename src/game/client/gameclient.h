@@ -216,6 +216,7 @@ private:
 	class IUpdater *m_pUpdater;
 #endif
 	class IHttp *m_pHttp;
+        class IEngineMap *m_pMap;
 
 	CLayers m_Layers;
 	CCollision m_Collision;
