@@ -5271,7 +5271,7 @@ void CGameClient::StoreSave(const char *pTeamMembers, const char *pGeneratedCode
 	io_close(File);
 }
  
-C    m_InfoMessages(),
+    m_InfoMessages(),
     // ... много строк ...
 {
 CGameClient::CGameClient() :
