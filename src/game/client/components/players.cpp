@@ -520,10 +520,9 @@ void CPlayers::RenderPlayer(
 	// AuraClient: Красная подсветка при хуке
 	if(CAuraClient::m_HookHitGlow)
 	{
-		const CNetObj_PlayerInfo *pLocalInfo = GameClient()->m_Snap.m_pLocalInfo;
-		if(pLocalInfo && pLocalInfo->m_HookedPlayer == ClientId)
+		const CNetObj_Character *pLocalChar = GameClient()->m_Snap.m_pLocalCharacter;
+		if(pLocalChar && pLocalChar->m_HookedPlayer == ClientId)
 		{
-			// Используем ColorRGBA вместо vec4
 			RenderInfo.m_ColorBody = ColorRGBA(1.0f, 0.3f, 0.3f, RenderInfo.m_ColorBody.a);
 			RenderInfo.m_ColorFeet = ColorRGBA(1.0f, 0.3f, 0.3f, RenderInfo.m_ColorFeet.a);
 		}
