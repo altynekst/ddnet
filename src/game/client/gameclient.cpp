@@ -5314,6 +5314,4 @@ void CGameClient::StoreSave(const char *pTeamMembers, const char *pGeneratedCode
     m_LocalServer()
 {
 }
-}
-
 
