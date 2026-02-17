@@ -180,7 +180,6 @@ public:
 	CMenuBackground m_MenuBackground; 
 	
 	CMapSounds m_MapSounds;
-  Caura m_aura
 
 	CRaceDemo m_RaceDemo;
 	CGhost m_Ghost;
@@ -190,7 +189,6 @@ public:
 	CLocalServer m_LocalServer;
 
 private:
-    CMobileMenu m_MobileMenu;
 
 	std::vector<class CComponent *> m_vpAll;
 	std::vector<class CComponent *> m_vpInput;
@@ -290,7 +288,6 @@ public:
 	class CRenderTools *RenderTools() { return &m_RenderTools; }
 	class CRenderMap *RenderMap() { return &m_RenderMap; }
 	class CLayers *Layers() { return &m_Layers; }
-	class Caura m_aura
 	CCollision *Collision() { return &m_Collision; }
 	const CCollision *Collision() const { return &m_Collision; }
 	const CRaceHelper *RaceHelper() const { return &m_RaceHelper; }
