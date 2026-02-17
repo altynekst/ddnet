@@ -5272,6 +5272,5 @@ void CGameClient::StoreSave(const char *pTeamMembers, const char *pGeneratedCode
 }
  
 CGameClient::CGameClient() :
-    m_MobileMenu()
 {
 }
