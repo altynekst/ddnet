@@ -43,6 +43,7 @@
 #include "race.h"
 #include "render.h"
 #include "game/client/auraclient.h"
+IEngineMap *CreateMap() { return new CEngineMap(); }
 
 #include <base/log.h>
 #include <base/math.h>
@@ -66,6 +67,7 @@
 #include <engine/storage.h>
 #include <engine/textrender.h>
 #include <engine/updater.h>
+#include <engine/map.h>
 
 #include <generated/client_data.h>
 #include <generated/client_data7.h>
