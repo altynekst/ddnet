@@ -516,16 +516,18 @@ void CPlayers::RenderPlayer(
 	Player = *pPlayerChar;
 
 	CTeeRenderInfo RenderInfo = *pRenderInfo;
+	
 	// AuraClient: Красная подсветка при хуке
-if(CAuraClient::m_HookHitGlow)
-{
-    CGameClient::CPlayerInfo *pLocal = GameClient()->m_Snap.m_pLocalInfo;
-    if(pLocal && pLocal->m_HookedPlayer == ClientId)
-    {
-        RenderInfo.m_ColorBody = vec4(1.0f, 0.3f, 0.3f, RenderInfo.m_ColorBody.a);
-        RenderInfo.m_ColorFeet = vec4(1.0f, 0.3f, 0.3f, RenderInfo.m_ColorFeet.a);
-    }
-}
+	if(CAuraClient::m_HookHitGlow)
+	{
+		const CNetObj_PlayerInfo *pLocalInfo = GameClient()->m_Snap.m_pLocalInfo;
+		if(pLocalInfo && pLocalInfo->m_HookedPlayer == ClientId)
+		{
+			// Используем ColorRGBA вместо vec4
+			RenderInfo.m_ColorBody = ColorRGBA(1.0f, 0.3f, 0.3f, RenderInfo.m_ColorBody.a);
+			RenderInfo.m_ColorFeet = ColorRGBA(1.0f, 0.3f, 0.3f, RenderInfo.m_ColorFeet.a);
+		}
+	}
 
 	bool Local = GameClient()->m_Snap.m_LocalClientId == ClientId;
 	bool OtherTeam = GameClient()->IsOtherTeam(ClientId);
