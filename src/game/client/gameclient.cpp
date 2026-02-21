@@ -260,7 +260,7 @@ void CGameClient::OnConsoleInit()
 	Console()->Chain("dummy7_color_hands", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_color_feet", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_color_eyes", ConchainSpecialDummyInfoupdate, this);
-	Console()->Chain("dummy7_use_custom_color_body", ConchainSpecialDummyInfoupdate, this
+	Console()->Chain("dummy7_use_custom_color_body", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_use_custom_color_marking", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_use_custom_color_decoration", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_use_custom_color_hands", ConchainSpecialDummyInfoupdate, this);
