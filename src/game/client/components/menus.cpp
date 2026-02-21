@@ -1001,4 +1001,5 @@ void CMenus::RenderAuraClientSettings(CUIRect MainView)
     DoButton_CheckBox(&CAuraClient::m_HookHitGlow, "Hook Hit Glow", CAuraClient::m_HookHitGlow, &Section);
 }
 
+
 // ... остальные функции остаются без изменений
