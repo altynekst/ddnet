@@ -961,6 +961,45 @@ void CMenus::Render()
 	{
 		m_ShowStart = true;
 	}
+void CMenus::RenderAuraClientSettings(CUIRect MainView)
+{
+    // Заголовок
+    CUIRect Section, Left, Right;
+    MainView.HSplitTop(20.0f, &Section, &MainView);
+    Ui()->DoLabel(&Section, "Aura Client Settings", 14.0f, TEXTALIGN_ML);
+
+    // Разделим на две колонки
+    MainView.VSplitMid(&Left, &Right);
+
+    // Левая колонка - настройки отображения
+    Left.HSplitTop(20.0f, &Section, &Left);
+    DoButton_CheckBox(&CAuraClient::m_UpdateFrozenSkin, "Update Frozen Skin", CAuraClient::m_UpdateFrozenSkin, &Section);
+
+    Left.HSplitTop(20.0f, &Section, &Left);
+    DoButton_CheckBox(&CAuraClient::m_ShowPingCircle, "Show Ping Circle", CAuraClient::m_ShowPingCircle, &Section);
+
+    Left.HSplitTop(20.0f, &Section, &Left);
+    DoButton_CheckBox(&CAuraClient::m_HideNameplatesSpec, "Hide Nameplates in Spec", CAuraClient::m_HideNameplatesSpec, &Section);
+
+    Left.HSplitTop(20.0f, &Section, &Left);
+    DoButton_CheckBox(&CAuraClient::m_ShowSkinNames, "Show Skin Names", CAuraClient::m_ShowSkinNames, &Section);
+
+    Left.HSplitTop(20.0f, &Section, &Left);
+    DoButton_CheckBox(&CAuraClient::m_FreezeStars, "Freeze Stars", CAuraClient::m_FreezeStars, &Section);
+
+    // Правая колонка
+    Right.HSplitTop(20.0f, &Section, &Right);
+    DoButton_CheckBox(&CAuraClient::m_ColorFrozenTees, "Color Frozen Tees", CAuraClient::m_ColorFrozenTees, &Section);
+
+    Right.HSplitTop(20.0f, &Section, &Right);
+    DoButton_CheckBox(&CAuraClient::m_HammerRotate, "Hammer Rotate", CAuraClient::m_HammerRotate, &Section);
+
+    Right.HSplitTop(20.0f, &Section, &Right);
+    DoButton_CheckBox(&CAuraClient::m_WhiteFeet, "White Feet", CAuraClient::m_WhiteFeet, &Section);
+
+    Right.HSplitTop(20.0f, &Section, &Right);
+    DoButton_CheckBox(&CAuraClient::m_HookHitGlow, "Hook Hit Glow", CAuraClient::m_HookHitGlow, &Section);
+}
 }
 
 // ... остальные функции остаются без изменений
