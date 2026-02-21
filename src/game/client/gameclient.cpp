@@ -1,5 +1,3 @@
-cpp
-/* (c) Magnus Auvinen. See licence.txt in the root of the distribution for more information. */
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
 
 #include "gameclient.h"
@@ -119,7 +117,7 @@ void CGameClient::OnConsoleInit()
 	m_pUpdater = Kernel()->RequestInterface<IUpdater>();
 #endif
 	m_pHttp = Kernel()->RequestInterface<IHttp>();
-	m_pMap = Kernel()->RequestInterface<IMap>(); // Исправлено: вместо CreateMap()
+	m_pMap = Kernel()->RequestInterface<IEngineMap>(); // Исправлено: вместо CreateMap()
 
 	// make a list of all the systems, make sure to add them in the correct render order
 	m_vpAll.insert(m_vpAll.end(), {&m_Skins,
@@ -587,7 +585,7 @@ void CGameClient::OnConnected()
 	const char *pLoadMapContent = Localize("Initializing map logic");
 	// render loading before skip is calculated
 	m_Menus.RenderLoading(pConnectCaption, pLoadMapContent, 0);
-	m_Layers.Init(Kernel()->RequestInterface<IMap>(), false);
+	m_Layers.Init(Kernel()->RequestInterface<IEngineMap>(), false);
 	m_Collision.Init(Layers());
 	m_GameWorld.m_Core.InitSwitchers(m_Collision.m_HighestSwitchNumber);
 	m_GameWorld.m_PredictedEvents.clear();
