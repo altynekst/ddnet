@@ -1000,6 +1000,5 @@ void CMenus::RenderAuraClientSettings(CUIRect MainView)
     Right.HSplitTop(20.0f, &Section, &Right);
     DoButton_CheckBox(&CAuraClient::m_HookHitGlow, "Hook Hit Glow", CAuraClient::m_HookHitGlow, &Section);
 }
-}
 
 // ... остальные функции остаются без изменений
