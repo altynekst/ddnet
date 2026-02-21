@@ -651,8 +651,9 @@ void CMenus::RenderMenubar(CUIRect Box, IClient::EClientState ClientState)
 		for(const CCommunity *pCommunity : ServerBrowser()->FavoriteCommunities())
 		{
 			if(Box.w < BrowserButtonWidth)
-				break;
+			{
 				Box.VSplitLeft(BrowserButtonWidth, &Button, &Box);
+			}
 			const int Page = PAGE_FAVORITE_COMMUNITY_1 + FavoriteCommunityIndex;
 			if(DoButton_MenuTab(&s_aFavoriteCommunityButtons[FavoriteCommunityIndex], FONT_ICON_ELLIPSIS, ActivePage == Page, &Button, IGraphics::CORNER_T, &m_aAnimatorsBigPage[BIT_TAB_FAVORITE_COMMUNITY_1 + FavoriteCommunityIndex], nullptr, nullptr, nullptr, 10.0f, m_CommunityIcons.Find(pCommunity->Id())))
 			{
@@ -839,12 +840,8 @@ void CMenus::Render()
 		}
 		else if(m_ShowStart)
 		{
-			// This would be the start menu - you need to include menus_start.cpp
-			// For now just show a placeholder
-			RenderBackground();
-			CUIRect Label;
-			Screen.Margin(50.0f, &Label);
-			Ui()->DoLabel(&Label, "Start Menu", 36.0f, TEXTALIGN_MC);
+			// Start menu from menus_start.cpp
+			RenderStartMenu(Screen);
 		}
 		else
 		{
@@ -961,45 +958,74 @@ void CMenus::Render()
 	{
 		m_ShowStart = true;
 	}
-void CMenus::RenderAuraClientSettings(CUIRect MainView)
-{
-    // Заголовок
-    CUIRect Section, Left, Right;
-    MainView.HSplitTop(20.0f, &Section, &MainView);
-    Ui()->DoLabel(&Section, "Aura Client Settings", 14.0f, TEXTALIGN_ML);
-
-    // Разделим на две колонки
-    MainView.VSplitMid(&Left, &Right);
-
-    // Левая колонка - настройки отображения
-    Left.HSplitTop(20.0f, &Section, &Left);
-    DoButton_CheckBox(&CAuraClient::m_UpdateFrozenSkin, "Update Frozen Skin", CAuraClient::m_UpdateFrozenSkin, &Section);
-
-    Left.HSplitTop(20.0f, &Section, &Left);
-    DoButton_CheckBox(&CAuraClient::m_ShowPingCircle, "Show Ping Circle", CAuraClient::m_ShowPingCircle, &Section);
-
-    Left.HSplitTop(20.0f, &Section, &Left);
-    DoButton_CheckBox(&CAuraClient::m_HideNameplatesSpec, "Hide Nameplates in Spec", CAuraClient::m_HideNameplatesSpec, &Section);
-
-    Left.HSplitTop(20.0f, &Section, &Left);
-    DoButton_CheckBox(&CAuraClient::m_ShowSkinNames, "Show Skin Names", CAuraClient::m_ShowSkinNames, &Section);
-
-    Left.HSplitTop(20.0f, &Section, &Left);
-    DoButton_CheckBox(&CAuraClient::m_FreezeStars, "Freeze Stars", CAuraClient::m_FreezeStars, &Section);
-
-    // Правая колонка
-    Right.HSplitTop(20.0f, &Section, &Right);
-    DoButton_CheckBox(&CAuraClient::m_ColorFrozenTees, "Color Frozen Tees", CAuraClient::m_ColorFrozenTees, &Section);
-
-    Right.HSplitTop(20.0f, &Section, &Right);
-    DoButton_CheckBox(&CAuraClient::m_HammerRotate, "Hammer Rotate", CAuraClient::m_HammerRotate, &Section);
-
-    Right.HSplitTop(20.0f, &Section, &Right);
-    DoButton_CheckBox(&CAuraClient::m_WhiteFeet, "White Feet", CAuraClient::m_WhiteFeet, &Section);
-
-    Right.HSplitTop(20.0f, &Section, &Right);
-    DoButton_CheckBox(&CAuraClient::m_HookHitGlow, "Hook Hit Glow", CAuraClient::m_HookHitGlow, &Section);
 }
 
+// Функция для AuraClient настроек
+void CMenus::RenderAuraClientSettings(CUIRect MainView)
+{
+	// Заголовок
+	CUIRect Section, Left, Right;
+	MainView.HSplitTop(20.0f, &Section, &MainView);
+	Ui()->DoLabel(&Section, "Aura Client Settings", 14.0f, TEXTALIGN_ML);
+
+	// Разделим на две колонки
+	MainView.VSplitMid(&Left, &Right);
+
+	// Левая колонка - настройки отображения
+	Left.HSplitTop(20.0f, &Section, &Left);
+	DoButton_CheckBox(&CAuraClient::m_UpdateFrozenSkin, "Update Frozen Skin", CAuraClient::m_UpdateFrozenSkin, &Section);
+
+	Left.HSplitTop(20.0f, &Section, &Left);
+	DoButton_CheckBox(&CAuraClient::m_ShowPingCircle, "Show Ping Circle", CAuraClient::m_ShowPingCircle, &Section);
+
+	Left.HSplitTop(20.0f, &Section, &Left);
+	DoButton_CheckBox(&CAuraClient::m_HideNameplatesSpec, "Hide Nameplates in Spec", CAuraClient::m_HideNameplatesSpec, &Section);
+
+	Left.HSplitTop(20.0f, &Section, &Left);
+	DoButton_CheckBox(&CAuraClient::m_ShowSkinNames, "Show Skin Names", CAuraClient::m_ShowSkinNames, &Section);
+
+	Left.HSplitTop(20.0f, &Section, &Left);
+	DoButton_CheckBox(&CAuraClient::m_FreezeStars, "Freeze Stars", CAuraClient::m_FreezeStars, &Section);
+
+	Left.HSplitTop(20.0f, &Section, &Left);
+	DoButton_CheckBox(&CAuraClient::m_ColorFrozenTees, "Color Frozen Tees", CAuraClient::m_ColorFrozenTees, &Section);
+
+	Left.HSplitTop(20.0f, &Section, &Left);
+	DoButton_CheckBox(&CAuraClient::m_HammerRotate, "Hammer Rotate", CAuraClient::m_HammerRotate, &Section);
+
+	// Правая колонка
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_WhiteFeet, "White Feet", CAuraClient::m_WhiteFeet, &Section);
+
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_HookHitGlow, "Hook Hit Glow", CAuraClient::m_HookHitGlow, &Section);
+
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_ShowScreenCenter, "Show Screen Center", CAuraClient::m_ShowScreenCenter, &Section);
+
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_ShowPosAngle, "Show Pos/Angle", CAuraClient::m_ShowPosAngle, &Section);
+
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_ShowCursorSpec, "Show Cursor in Spectate", CAuraClient::m_ShowCursorSpec, &Section);
+
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_ShowLastAlive, "Show Last Alive", CAuraClient::m_ShowLastAlive, &Section);
+
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_RemovePredictionFrozen, "Remove Prediction Frozen", CAuraClient::m_RemovePredictionFrozen, &Section);
+
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_ShowOutlines, "Show Outlines", CAuraClient::m_ShowOutlines, &Section);
+
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_OutlinesOnlyEntities, "Outlines Only Entities", CAuraClient::m_OutlinesOnlyEntities, &Section);
+
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_OutlineFreeze, "Outline Freeze", CAuraClient::m_OutlineFreeze, &Section);
+
+	Right.HSplitTop(20.0f, &Section, &Right);
+	DoButton_CheckBox(&CAuraClient::m_OutlineWalls, "Outline Walls", CAuraClient::m_OutlineWalls, &Section);
+}
 
 // ... остальные функции остаются без изменений
