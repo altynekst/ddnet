@@ -1,3 +1,4 @@
+cpp
 /* (c) Magnus Auvinen. See licence.txt in the root of the distribution for more information. */
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
 
@@ -80,6 +81,11 @@
 
 #include <chrono>
 #include <limits>
+#include <memory>
+#include <functional>
+#include <algorithm>
+#include <bitset>
+#include <optional>
 
 using namespace std::chrono_literals;
 
@@ -113,26 +119,26 @@ void CGameClient::OnConsoleInit()
 	m_pUpdater = Kernel()->RequestInterface<IUpdater>();
 #endif
 	m_pHttp = Kernel()->RequestInterface<IHttp>();
-	m_pMap = CreateMap();
+	m_pMap = Kernel()->RequestInterface<IMap>(); // Исправлено: вместо CreateMap()
 
 	// make a list of all the systems, make sure to add them in the correct render order
 	m_vpAll.insert(m_vpAll.end(), {&m_Skins,
 					      &m_Skins7,
 					      &m_CountryFlags,
 					      &m_MapImages,
-					      &m_Effects, // doesn't render anything, just updates effects
+					      &m_Effects,
 					      &m_Binds,
 					      &m_Binds.m_SpecialBinds,
 					      &m_Controls,
 					      &m_Camera,
 					      &m_Sounds,
 					      &m_Voting,
-					      &m_Particles, // doesn't render anything, just updates all the particles
+					      &m_Particles,
 					      &m_RaceDemo,
 					      &m_MapSounds,
 					      &m_Censor,
-					      &m_Background, // render instead of m_MapLayersBackground when g_Config.m_ClOverlayEntities == 100
-					      &m_MapLayersBackground, // first to render
+					      &m_Background,
+					      &m_MapLayersBackground,
 					      &m_Particles.m_RenderTrail,
 					      &m_Particles.m_RenderTrailExtra,
 					      &m_Items,
@@ -164,12 +170,12 @@ void CGameClient::OnConsoleInit()
 					      &m_MenuBackground});
 
 	// build the input stack
-	m_vpInput.insert(m_vpInput.end(), {&m_KeyBinder, // this will take over all input when we want to bind a key
+	m_vpInput.insert(m_vpInput.end(), {&m_KeyBinder,
 						  &m_Binds.m_SpecialBinds,
 						  &m_GameConsole,
-						  &m_Chat, // chat has higher prio, due to that you can quit it by pressing esc
+						  &m_Chat,
 						  &m_Scoreboard,
-						  &m_Motd, // for pressing esc to remove it
+						  &m_Motd,
 						  &m_Spectator,
 						  &m_Emoticon,
 						  &m_ImportantAlert,
@@ -249,14 +255,14 @@ void CGameClient::OnConsoleInit()
 	Console()->Chain("dummy7_skin_decoration", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_skin_hands", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_skin_feet", ConchainSpecialDummyInfoupdate, this);
-	Console()->Chain("dummy7_skin_eyes", ConchainSpecialDummyInfoupdate, this);
+	 Console()->Chain("dummy7_skin_eyes", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_color_body", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_color_marking", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_color_decoration", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_color_hands", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_color_feet", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_color_eyes", ConchainSpecialDummyInfoupdate, this);
-	Console()->Chain("dummy7_use_custom_color_body", ConchainSpecialDummyInfoupdate, this);
+	Console()->Chain("dummy7_use_custom_color_body", ConchainSpecialDummyInfoupdate, this
 	Console()->Chain("dummy7_use_custom_color_marking", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_use_custom_color_decoration", ConchainSpecialDummyInfoupdate, this);
 	Console()->Chain("dummy7_use_custom_color_hands", ConchainSpecialDummyInfoupdate, this);
